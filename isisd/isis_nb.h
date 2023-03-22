@@ -334,6 +334,8 @@ int lib_interface_isis_fast_reroute_level_2_ti_lfa_node_protection_modify(
 	struct nb_cb_modify_args *args);
 int lib_interface_isis_fast_reroute_level_2_ti_lfa_link_fallback_modify(
 	struct nb_cb_modify_args *args);
+int lib_interface_isis_lsp_tx_interval_modify(struct nb_cb_modify_args *args);
+int lib_interface_isis_lsp_tx_interval_destroy(struct nb_cb_destroy_args *args);
 struct yang_data *
 lib_interface_state_isis_get_elem(struct nb_cb_get_elem_args *args);
 const void *lib_interface_state_isis_adjacencies_adjacency_get_next(
@@ -620,6 +622,9 @@ void cli_show_isis_mpls_if_ldp_sync(struct vty *vty,
 void cli_show_isis_mpls_if_ldp_sync_holddown(struct vty *vty,
 					     const struct lyd_node *dnode,
 					     bool show_defaults);
+void cli_show_ip_isis_lsp_tx_interval(struct vty *vty,
+				    const struct lyd_node *dnode,
+				    bool show_defaults);
 
 /* Notifications. */
 void isis_notif_db_overload(const struct isis_area *area, bool overload);

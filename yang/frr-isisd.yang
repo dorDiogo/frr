@@ -821,6 +821,15 @@ module frr-isisd {
         uses interface-config-ti-lfa;
       }
     }
+
+    leaf lsp-tx-interval {
+      type uint16 {
+        range "1..1000";
+      }
+      units "msec";
+      description
+        "Interval between LSP transmissions.";
+    }
   }
 
   grouping adjacency-state {

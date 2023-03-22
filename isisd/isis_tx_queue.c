@@ -149,7 +149,20 @@ void _isis_tx_queue_add(struct isis_tx_queue *queue,
 	e->type = type;
 
 	THREAD_OFF(e->retry);
-	thread_add_event(master, tx_queue_send_event, e, 0, &e->retry);
+	if (1 || !queue->circuit->lsp_tx_interval)
+		thread_add_event(master, tx_queue_send_event, e, 0, &e->retry);
+	else {
+		struct timeval now;
+		struct timeval diff;
+		monotime(&now);
+		timersub(&queue->circuit->last_send_event, &now, &diff);
+		int64_t diff_msec =
+			diff.tv_sec * 1000LL + diff.tv_usec / 1000LL;
+		int64_t delay = (int64_t)queue->circuit->lsp_tx_interval +
+				MAX(0LL, diff_msec);
+		thread_add_timer_msec(master, tx_queue_send_event, e, delay,
+				      &e->retry);
+	}
 
 	e->is_retry = false;
 }

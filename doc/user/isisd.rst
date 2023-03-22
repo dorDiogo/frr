@@ -280,6 +280,10 @@ ISIS interface
    When node protection is used, option link-fallback enables the computation and use of
    link-protecting LFAs for destinations unprotected by node protection.
 
+.. clicmd:: isis lsp-tx-interval (1-1000)
+
+   Set LSP transmission interval in milisseconds.
+
 .. _showing-isis-information:
 
 Showing ISIS information

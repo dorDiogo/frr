@@ -1054,6 +1054,14 @@ const struct frr_yang_module_info frr_isisd_info = {
 			}
 		},
 		{
+			.xpath = "/frr-interface:lib/interface/frr-isisd:isis/lsp-tx-interval",
+			.cbs = {
+				.cli_show = cli_show_ip_isis_lsp_tx_interval,
+				.modify = lib_interface_isis_lsp_tx_interval_modify,
+				.destroy = lib_interface_isis_lsp_tx_interval_destroy,
+			}
+		},
+		{
 			.xpath = "/frr-interface:lib/interface/state/frr-isisd:isis",
 			.cbs = {
 				.get_elem = lib_interface_state_isis_get_elem,

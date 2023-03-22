@@ -3721,3 +3721,33 @@ int lib_interface_isis_fast_reroute_level_2_ti_lfa_link_fallback_modify(
 
 	return NB_OK;
 }
+
+/*
+ * XPath:
+ * /frr-interface:lib/interface/frr-isisd:isis/lsp-tx-interval
+ */
+int lib_interface_isis_lsp_tx_interval_modify(struct nb_cb_modify_args *args)
+{
+	struct isis_circuit *circuit;
+
+	if (args->event != NB_EV_APPLY)
+		return NB_OK;
+
+	circuit = nb_running_get_entry(args->dnode, NULL, true);
+	circuit->lsp_tx_interval = yang_dnode_get_uint16(args->dnode, NULL);
+
+	return NB_OK;
+}
+
+int lib_interface_isis_lsp_tx_interval_destroy(struct nb_cb_destroy_args *args)
+{
+	struct isis_circuit *circuit;
+
+	if (args->event != NB_EV_APPLY)
+		return NB_OK;
+
+	circuit = nb_running_get_entry(args->dnode, NULL, true);
+	circuit->lsp_tx_interval = 0;
+
+	return NB_OK;
+}

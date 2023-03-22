@@ -2996,6 +2996,41 @@ DEFPY(isis_ti_lfa, isis_ti_lfa_cmd,
 }
 
 /*
+ * XPath: /frr-interface:lib/interface/frr-isisd:isis/lsp-tx-interval
+ */
+DEFPY_YANG(lsp_tx_interval, lsp_tx_interval_cmd,
+	   "isis lsp-tx-interval (1-1000)$intv",
+	   "IS-IS routing protocol\n"
+	   "Set LSP transmission interval in milisseconds\n"
+	   "LSP tranmission interval value in milisseconds (0-1000)\n")
+{	
+	nb_cli_enqueue_change(vty, "./frr-isisd:isis/lsp-tx-interval", NB_OP_MODIFY, intv_str);
+
+	return nb_cli_apply_changes(vty, NULL);
+}
+
+DEFPY_YANG(no_lsp_tx_interval, no_lsp_tx_interval_cmd,
+	   "no isis lsp-tx-interval [(1-1000)]",
+	   NO_STR
+	   "IS-IS routing protocol\n"
+	   "Set LSP transmission interval in milisseconds\n"
+	   "LSP tranmission interval value in milisseconds (0-1000)\n")
+{	
+	nb_cli_enqueue_change(vty, "./frr-isisd:isis/lsp-tx-interval", NB_OP_DESTROY, NULL);
+
+	return nb_cli_apply_changes(vty, NULL);
+}
+
+void cli_show_ip_isis_lsp_tx_interval(struct vty *vty,
+				      const struct lyd_node *dnode,
+				      bool show_defaults)
+{
+	const char *lsp_tx_interval = yang_dnode_get_string(dnode, NULL);
+
+	vty_out(vty, " isis lsp-tx-interval %s\n", lsp_tx_interval);
+}
+
+/*
  * XPath: /frr-isisd:isis/instance/log-adjacency-changes
  */
 DEFPY_YANG(log_adj_changes, log_adj_changes_cmd, "[no] log-adjacency-changes",
@@ -3278,6 +3313,9 @@ void isis_cli_init(void)
 	install_element(INTERFACE_NODE, &isis_remote_lfa_cmd);
 	install_element(INTERFACE_NODE, &isis_remote_lfa_max_metric_cmd);
 	install_element(INTERFACE_NODE, &isis_ti_lfa_cmd);
+
+	install_element(INTERFACE_NODE, &lsp_tx_interval_cmd);
+	install_element(INTERFACE_NODE, &no_lsp_tx_interval_cmd);
 
 	install_element(ISIS_NODE, &log_adj_changes_cmd);
 

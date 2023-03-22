@@ -104,6 +104,7 @@ struct isis_circuit {
 	char ext_domain;    /* externalDomain   (boolean) */
 	int lsp_regenerate_pending[ISIS_LEVELS];
 	uint64_t lsp_error_counter;
+	struct timeval last_send_event;
 
 	/*
 	 * Configurables
@@ -117,6 +118,7 @@ struct isis_circuit {
 	uint16_t hello_multiplier[ISIS_LEVELS]; /* hello-multiplier */
 	uint16_t csnp_interval[ISIS_LEVELS];    /* csnp-interval in seconds */
 	uint16_t psnp_interval[ISIS_LEVELS];    /* psnp-interval in seconds */
+	uint16_t lsp_tx_interval; /* lsp-tx-interval in milisseconds */
 	uint8_t metric[ISIS_LEVELS];
 	uint32_t te_metric[ISIS_LEVELS];
 	struct isis_ext_subtlvs *ext; /* Extended parameters (TE + Adj SID */
